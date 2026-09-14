@@ -273,6 +273,7 @@ Follow the links in the table below:
 | [Rust](https://docs.rs/cozo/)                            | Source only, usable on any [platform](https://doc.rust-lang.org/nightly/rustc/platform-support.html) with `std` support | MQRST   |
 | [Golang](https://github.com/cozodb/cozo-lib-go)          | Linux (x86_64, ARM64), Mac (ARM64, x86_64), Windows (x86_64)                                                            | MQR     |
 | [C/C++/language with C FFI](./cozo-lib-c)                | Linux (x86_64, ARM64), Mac (ARM64, x86_64), Windows (x86_64)                                                            | MQR     |
+| [Zig 0.16](./cozo-lib-zig)                               | Source only, usable anywhere Zig and the Cozo C library are supported                                                   | MQR     |
 | [Standalone HTTP server](./cozo-bin)                     | Linux (x86_64, ARM64), Mac (ARM64, x86_64), Windows (x86_64)                                                            | MQRST   |
 | [Lisp](https://github.com/pegesund/cozodb-lisp)          | Linux (x86_64 so far)                                                                                                   | MR      |
 | [Smalltalk](https://github.com/Mr-Dispatch/pharo-cozodb) | Win10 & Linux (Ubuntu 23.04) x86_64 tested, MacOS should probably work                                                  | MQR     |

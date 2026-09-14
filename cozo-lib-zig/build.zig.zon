@@ -1,0 +1,13 @@
+.{
+    .name = .cozo,
+    .version = "0.1.0",
+    .minimum_zig_version = "0.16.0-dev.1",
+    .fingerprint = 0xc873d3e63f78ed27,
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "README.md",
+        "LICENSE.txt",
+    },
+}
