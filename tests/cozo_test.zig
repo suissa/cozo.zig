@@ -19,7 +19,7 @@ test "CozoDB opens, creates relations, populates ecommerce and executes relation
         \:create product {id: String => category_id: String, sku: String, name: String, price_cents: Int, stock_quantity: Int}
     , "{}", false);
 
-    const imported = try db.importRelations(
+    const imported = try db.importRelations(std.testing.allocator,
         \{"relations":[
         \{"relation":"user","columns":["id","username","role"],"rows":[["usr-01","store-1","admin"],["usr-02","store-2","operator"],["usr-03","store-3","support"],["usr-04","store-4","operator"],["usr-05","store-5","support"]]},
         \{"relation":"consumer","columns":["id","display_name","phone_e164","city"],"rows":[["con-01","Consumidor 1","+5515999000001","Itarare-SP"],["con-02","Consumidor 2","+5515999000002","Itarare-SP"],["con-03","Consumidor 3","+5515999000003","Itarare-SP"],["con-04","Consumidor 4","+5515999000004","Itarare-SP"],["con-05","Consumidor 5","+5515999000005","Itarare-SP"]]},
@@ -27,10 +27,12 @@ test "CozoDB opens, creates relations, populates ecommerce and executes relation
         \{"relation":"product","columns":["id","category_id","sku","name","price_cents","stock_quantity"],"rows":[["prd-01","cat-01","EC-001","Fone Bluetooth",6365,11],["prd-02","cat-01","EC-002","Caixa de Som",7740,12],["prd-03","cat-01","EC-003","Teclado",9115,13]]}
         \]}
     );
+    defer std.testing.allocator.free(imported);
     try std.testing.expect(imported.len > 0);
 
-    const result = try db.run(
+    const result = try db.run(std.testing.allocator,
         \?[count(id)] := *product {id}
     , "{}", true);
+    defer std.testing.allocator.free(result);
     try std.testing.expect(std.mem.indexOf(u8, result, "3") != null);
 }
