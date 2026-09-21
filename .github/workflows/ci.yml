@@ -36,5 +36,5 @@ jobs:
 
       - name: Run tests
         run: |
-          "$ZIG_BIN/zig" version
-          "$ZIG_BIN/zig" build test
+          zig version
+          zig build test
