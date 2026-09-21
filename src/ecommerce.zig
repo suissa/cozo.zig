@@ -1,5 +1,3 @@
-const std = @import("std");
-
 pub const Category = struct { id: []const u8, slug: []const u8, name: []const u8 };
 pub const Product = struct {
     id: []const u8,
