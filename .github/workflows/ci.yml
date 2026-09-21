@@ -1,0 +1,48 @@
+name: Zig CozoDB CI
+
+on:
+  push:
+    branches: [main, "feat/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: cozodb/cozo
+          path: cozo-upstream
+          fetch-depth: 1
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ziglang/zig
+          ref: master
+          path: zig-source
+          fetch-depth: 1
+
+      - name: Install toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Install Zig 0.16
+        run: |
+          curl -L --fail --retry 3 https://ziglang.org/builds/zig-linux-x86_64-0.16.0-dev.2455+f5cd3c8c5.tar.xz -o /tmp/zig.tar.xz
+          tar -xf /tmp/zig.tar.xz -C /tmp
+          echo "ZIG_BIN=$(find /tmp -maxdepth 1 -type d -name 'zig-linux-*' | head -n1)" >> "$GITHUB_ENV"
+
+      - name: Build Cozo C library
+        run: |
+          cargo build --manifest-path cozo-upstream/Cargo.toml --package cozo_c --release --features compact
+          cp cozo-upstream/cozo-lib-c/cozo_c.h native/cozo_c.h
+          cp cozo-upstream/target/release/libcozo_c.a native/
+
+      - name: Run tests
+        run: |
+          "$ZIG_BIN/zig" version
+          "$ZIG_BIN/zig" build test
